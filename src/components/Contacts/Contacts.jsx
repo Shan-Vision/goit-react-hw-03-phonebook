@@ -1,14 +1,16 @@
-const Contacts = ({ contacts }) => {
+function ContactList ({ contacts }) {
   return (
-    <>
-      <h2>Contacts</h2>
-      <ul>
-        {contacts.map(({ id, name }) => {
-          return <li key={id}>{name}</li>;
-        })}
-      </ul>
-    </>
+    <ul>
+      {contacts.map(({ id, name, number }) => 
+       (
+          <li key={id}>
+            {name}: {number}
+          </li>
+        )
+      )}
+    </ul>
   );
 };
 
-export default Contacts;
+export default ContactList;
+

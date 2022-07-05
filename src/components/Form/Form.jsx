@@ -1,12 +1,14 @@
 import { Component } from 'react';
 
-class Form extends Component {
+class ContactForm extends Component {
   DEFAULT_STATE = {
     name: '',
+    number: '',
   };
 
   state = {
     name: '',
+    number: '',
   };
   resetForm = () => {
     this.setState({ ...this.DEFAULT_STATE });
@@ -17,18 +19,18 @@ class Form extends Component {
     this.setState({ [name]: value });
   };
 
-  handelSubmit = evt => {
+
+  handleSubmit = evt => {
     evt.preventDefault();
     this.props.onSubmit({
       contact: this.state,
       onSuccessSubmit: this.resetForm,
     });
-
   };
 
   render() {
     return (
-      <form onSubmit={this.handelSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <label>
           Name
           <input
@@ -42,10 +44,22 @@ class Form extends Component {
             onChange={this.handleNameChange}
           />
         </label>
+        <label>
+          Number
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            value={this.state.number}
+            onChange={this.handleNameChange}
+          />
+        </label>
         <button type="submit">SUBMIT</button>
       </form>
     );
   }
 }
 
-export default Form;
+export default ContactForm;
