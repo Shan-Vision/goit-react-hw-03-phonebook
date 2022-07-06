@@ -1,11 +1,13 @@
+import { FilterBox, FilterLabel, FilterInput } from './FilterContacts.styled';
+
+
 function FilterContacts({ onChange: handleFilterChange }) {
   return (
-    <>
-      <label>
-        Find contacts by name
-        <input onChange={handleFilterChange} />
-      </label>
-    </>
+    <FilterBox>
+      <FilterLabel>Find contacts by name</FilterLabel>
+      <FilterInput onChange={handleFilterChange} />
+    </FilterBox>
   );
 }
+
 export default FilterContacts;
