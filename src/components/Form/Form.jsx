@@ -1,7 +1,12 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Label, Input, Button } from './Form.styled';
 
 class ContactForm extends Component {
+  static proppTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    contactNameList: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  };
   DEFAULT_STATE = {
     name: '',
     number: '',
@@ -11,9 +16,6 @@ class ContactForm extends Component {
     name: '',
     number: '',
   };
-  resetForm = () => {
-    this.setState({ ...this.DEFAULT_STATE });
-  };
 
   handleNameChange = event => {
     const { value, name } = event.currentTarget;
@@ -22,10 +24,25 @@ class ContactForm extends Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
-    this.props.onSubmit({
-      contact: this.state,
-      onSuccessSubmit: this.resetForm,
-    });
+    const { contactNameList, onSubmit } = this.props;
+    const { name } = this.state;
+    const findIsIncludeName = !contactNameList.filter(
+      contactName => contactName.toLowerCase() === name.toLowerCase()
+    ).length;
+
+    if (findIsIncludeName) {
+      onSubmit({
+        contact: this.state,
+      });
+    } else {
+      alert(`${name} is already in contacts`);
+    }
+
+    this.resetForm();
+  };
+
+  resetForm = () => {
+    this.setState({ ...this.DEFAULT_STATE });
   };
 
   render() {

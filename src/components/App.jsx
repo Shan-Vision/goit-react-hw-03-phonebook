@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import ContactForm from 'components/Form';
-import ContactList from 'components/Contacts';
+import ContactList from 'components/ContactList';
 import FilterContacts from 'components/FilterContacts';
 import shortid from 'shortid';
 
@@ -15,26 +15,14 @@ class App extends Component {
     filter: '',
   };
 
-  handleSubmitForm = ({ contact, onSuccessSubmit }) => {
+  handleSubmitForm = ({ contact }) => {
     const { name, number } = contact;
-    console.log(name);
-    const findIsIncludeName = !this.state.contacts.filter(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    ).length;
-    if (findIsIncludeName) {
-      this.setState(state => {
-        console.log('state', state);
-        return {
-          contacts: [
-            ...state.contacts,
-            { id: shortid.generate(), name, number },
-          ],
-        };
-      });
-    } else {
-      alert(`${name} is already in contacts`);
-    }
-    onSuccessSubmit();
+
+    this.setState(state => {
+      return {
+        contacts: [...state.contacts, { id: shortid.generate(), name, number }],
+      };
+    });
   };
 
   filterContactsByName = () =>
@@ -54,6 +42,8 @@ class App extends Component {
     });
   };
   render() {
+    const contactNameList = this.state.contacts.map(contact => contact.name);
+    
     return (
       <div
         style={{
@@ -67,7 +57,10 @@ class App extends Component {
         }}
       >
         <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.handleSubmitForm} />
+        <ContactForm
+          onSubmit={this.handleSubmitForm}
+          contactNameList={contactNameList}
+        />
         <h2>Contacts</h2>
         <FilterContacts onChange={this.handleFilterChange} />
         <ContactList
@@ -78,6 +71,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
